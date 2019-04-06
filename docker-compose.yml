@@ -1,0 +1,35 @@
+version: '3.4'
+
+services:
+  navibot:
+    image: ${DOCKER_REGISTRY-}navibot
+    build:
+      context: .
+      dockerfile: src/Navigator.TeamsBot/Dockerfile
+
+  db:
+    image: postgres
+    ports:
+        - "5432:5432"  
+    volumes:
+        - db-data:/var/lib/postgresql/data
+    restart: always
+    environment:
+        POSTGRES_PASSWORD: navibot
+        POSTGRES_USER: navibot
+        POSTGRES_DB: navibotdb
+        
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+    volumes:
+       - pgadmin:/root/.pgadmin
+    ports:
+      - "${PGADMIN_PORT:-5051}:80"
+    restart: always
+        
+volumes:
+    pgadmin:
+    db-data:

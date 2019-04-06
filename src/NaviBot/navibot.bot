@@ -1,0 +1,21 @@
+{
+  "name": "navibot",
+  "description": "",
+  "services": [
+    {
+      "type": "endpoint",
+      "appId": "",
+      "appPassword": "",
+      "endpoint": "http://localhost:3978/api/messages",
+      "name": "development",
+      "id": "1"
+    },
+    {
+      "type": "generic",
+      "name": "commandHandlingService",
+      "id": "2"
+    }
+  ],
+  "padlock": "",
+  "version": "2.0"
+}
