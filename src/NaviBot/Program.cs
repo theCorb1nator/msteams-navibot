@@ -19,16 +19,15 @@ namespace msteams.commandbot
 
        
             var host = CreateWebHostBuilder(args).Build();
-
+            await host.Services.GetRequiredService<CommandHandlingService>().InitializeAsync();
             using (var serviceScope = host.Services.CreateScope())
             {
                 var services = serviceScope.ServiceProvider;
 
                 try
                 {
-                    await services.GetRequiredService<CommandHandlingService>().InitializeAsync();
-                    services.GetRequiredService<NaviBotContext>()
-                    .Database.Migrate();
+                    services.GetRequiredService<NaviBotContext>();
+                    //.Database.Migrate();
                     // Use the context here
                 }
                 catch (Exception ex)
@@ -37,7 +36,6 @@ namespace msteams.commandbot
                     logger.LogError(ex, "An error occurred.");
                 }
             }
-
             host.Run();
         }
 

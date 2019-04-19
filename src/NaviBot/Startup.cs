@@ -38,8 +38,18 @@ namespace msteams.commandbot
             });
 
             services.AddNaviBot();
-            services.AddSingleton<CommandService>()
-            .AddSingleton<CommandHandlingService>();
+            services.AddSingleton(_ =>
+            {
+                var service = new CommandService(
+                    new CommandServiceConfig
+                    {
+                        CaseSensitiveCommands = false,
+                        DefaultRunMode = RunMode.Sync,
+                        SeparatorChar = ' '
+                    });
+                return service;
+            });
+            services.AddSingleton<CommandHandlingService>();
            
 
            
@@ -49,7 +59,7 @@ namespace msteams.commandbot
 
                 // Loads .bot configuration file and adds a singleton that your Bot can access through dependency injection.
 
-                var botConfig = BotConfiguration.Load(@".\navibot.bot");
+                var botConfig = BotConfiguration.Load(@"./navibot.bot");
                 services.AddSingleton(sp => botConfig);
              
 
